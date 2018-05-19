@@ -30,7 +30,7 @@ connection.connect(function(err) {
 app.get("/", function(req, res) {
     connection.query("SELECT * FROM burgers", function(err, data) {
         if (err) throw err;
-        return res.render("index", { data:data })
+        return res.render("index", { data : data });
     });
 });
 

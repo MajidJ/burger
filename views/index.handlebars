@@ -1,0 +1,50 @@
+
+<header><div class="jumbotron"><h1>Burger Eater</h1></div></header>
+
+<body>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>All Burgers</h2>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                    {{#each data}}
+                        <li>{{burger}} <button class="btn btn-primary" value="{{id}}">Devour</button></li>
+                    {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Devoured Burgers</h2>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                    {{#each data}}
+                        <li>{{burger}} <button class="btn btn-primary" value="{{id}}">Devour</button></li>
+                    {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Add A Burger</h2>
+                </div>
+                <div class="panel-body">
+                    <form action="/api/new" id="burgerNameForm">
+                        <textarea name="burgerName" id="burgerName" cols="30" rows="2"></textarea>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
