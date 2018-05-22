@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Burger Eater</title>
 
+    {{!-- Font Awesome --}}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
     {{!-- Bootstrap --}}
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -13,21 +16,96 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     
     {{!-- CSS --}}
-    <link rel="stylesheet" href="../../public/assets/css/burger_style.css">
+    <link rel="stylesheet" type="text/html" href= "../../public/assets/css/burger_style.css">
 
 </head>
-    <div class="container">
-        {{{body}}}
-    </div>
+    {{{body}}}
 {{!-- jquery --}}
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
-    $("#burgerNameForm").on("submit", function(event) {
+    function resetDisplay() {
+        $.ajax({
+            type: "GET",
+            url: "/api/"
+        }).then(function(burgerArray) {
+            $("#freeBurger").empty();
+            $("#devouredBurger").empty();
+            burgerArray.map(elem => {
+                if (elem.devoured === 0) {
+                    let freeBurger = $("<div>");
+                    freeBurger.addClass("well well-sm col-xs-7 col-sm-10 col-md-9 col-lg-9");
+                    freeBurger.text(`${elem.id}. ${elem.burger}`);
+                    let buttonDiv = $("<div>");
+                    buttonDiv.addClass("col-xs-5 col-sm-2 col-md-3 col-lg-3 text-center");
+                    let button = $(`<button value="${elem.id}">`);
+                    button.addClass("btn btn-primary devourBtn form-control");
+                    button.text("Devour");
+                    buttonDiv.append(button);
+                    $("#freeBurger").append(freeBurger, buttonDiv);
+                } else if (elem.devoured === 1) {
+                    let devouredBurger = $("<div>");
+                    devouredBurger.addClass("well well-sm col-xs-9");
+                    devouredBurger.text(`${elem.id}. ${elem.burger}`);
+                    let buttonDiv = $("<div>");
+                    buttonDiv.addClass("col-xs-3 text-center");
+                    let button = $(`<button value="${elem.id}">`);
+                    button.addClass("btn btn-success addBurgerBtn form-control");
+                    button.append(`<i class="fas fa-plus"></i>`);
+                    buttonDiv.append(button);
+                    $("#devouredBurger").append(devouredBurger, buttonDiv);
+                }
+            })
+        }).catch(function(err) {
+            if (err) throw err;
+        })
+    };
+
+    $("body").on("click", "#burgerNameFormBtn", function(event) {
         event.preventDefault();
+        let burgerName = $("#burgerName").val();
+        $.ajax({
+        type: "POST",
+        url: "/api/new",
+        data: {burger: burgerName}
+        }).then(function(results) {
+            resetDisplay();
+            console.log("updated post data");
+        }).catch(function(err) {
+            if (err) throw err;;
+        });
     });
+    $("body").on("click", ".devourBtn", function(event) {
+        let burgerId = $(this).val();
+        console.log(burgerId);
+        $.ajax({
+            url: '/api/' + burgerId,
+            type: 'PUT',
+            data: { devoured: 1 }
+        }).then(function(results) {
+            resetDisplay();
+            console.log("updated put data");
+        }).catch(function(err) {
+            if (err) throw err;;
+        });
+    });
+    $("body").on("click", ".addBurgerBtn", function(event) {
+        let burgerId = $(this).val();
+        console.log(burgerId);
+        $.ajax({
+            url: '/api/' + burgerId,
+            type: 'PUT',
+            data: { devoured: 0 }
+        }).then(function(results) {
+            resetDisplay();
+            console.log("updated put data");
+        }).catch(function(err) {
+            if (err) throw err;;
+        });
+    });
+    
 </script>
 
 </html>

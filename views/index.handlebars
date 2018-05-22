@@ -1,50 +1,60 @@
+<div class="container">
 
-<header><div class="jumbotron"><h1>Burger Eater</h1></div></header>
+    <header><div class="jumbotron text-center"><h1>Burger Eater</h1></div></header>
 
-<body>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2>All Burgers</h2>
+    <body>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="text-center panel-heading">
+                        <h2>Pick A Burger</h2>
+                    </div>
+                    <div class="panel-body" id="freeBurger">
+                        {{#each data}}
+                            {{#unless devoured}}
+                                <div class="well well-sm col-xs-7 col-sm-10 col-md-9 col-lg-9">
+                                    {{id}}. {{burger}}
+                                </div>
+                                <div class="col-xs-5 col-sm-2 col-md-3 col-lg-3 text-center">
+                                    <button class="btn btn-primary devourBtn form-control" value="{{id}}">Devour</button>
+                                </div>
+                            {{/unless}}
+                        {{/each}}
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <ul>
-                    {{#each data}}
-                        <li>{{burger}} <button class="btn btn-primary" value="{{id}}">Devour</button></li>
-                    {{/each}}
-                    </ul>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="text-center panel-heading">
+                        <h2>Devoured Burgers</h2>
+                    </div>
+                    <div class="panel-body" id="devouredBurger">
+                        {{#each data}}
+                            {{#if devoured}}
+                                <div class="well well-sm col-xs-9">{{id}}. {{burger}}</div>
+                                <div class="col-xs-3 text-center">
+                                    <button class="btn btn-success addBurgerBtn form-control" value="{{id}}"><i class="fas fa-plus"></i></button>
+                                </div>
+                            {{/if}}
+                        {{/each}}
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2>Devoured Burgers</h2>
-                </div>
-                <div class="panel-body">
-                    <ul>
-                    {{#each data}}
-                        <li>{{burger}} <button class="btn btn-primary" value="{{id}}">Devour</button></li>
-                    {{/each}}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2>Add A Burger</h2>
-                </div>
-                <div class="panel-body">
-                    <form action="/api/new" id="burgerNameForm">
-                        <textarea name="burgerName" id="burgerName" cols="30" rows="2"></textarea>
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                    </form>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2>Add A Burger</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form id="burgerNameForm">
+                            <input type="text" name="burgerName" id="burgerName" class="form-control" rows="5"></input></br>
+                            <button class="btn btn-primary" id="burgerNameFormBtn" value="Refresh Page">Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
+</div>

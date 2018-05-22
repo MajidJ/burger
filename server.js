@@ -34,7 +34,7 @@ app.get("/", function(req, res) {
     });
 });
 
-app.get("api/:id?", function(req, res) {
+app.get("/api/:id?", function(req, res) {
     if (req.params.id) {
         connection.query("SELECT * FROM burgers WHERE id=?", [req.params.id], function(err, data) {
             if (err) throw err;
@@ -52,14 +52,17 @@ app.post("/api/new", function(req, res) {
     connection.query("INSERT INTO burgers (burger, devoured) VALUES (?, ?)", [req.body.burger, false], function(err, data) {
         if (err) throw err;
         console.log("Added new burger");
-    })
+    });
+    return res.json(req.body);
 });
 
 app.put("/api/:id", function(req, res) {
-    connection.query("UPDATE burgers SET devoured=true WHERE id=?", [req.params.id], function(err, data) {
+    connection.query("UPDATE burgers SET devoured=? WHERE id=?", [req.body.devoured, req.params.id], function(err, data) {
         if (err) throw err;
+        console.log(req.body.devoured);
         console.log("Devoured boolean updated");
-    })
+    });
+    return res.json(req.body);
 })
 
 app.listen(PORT, function() {
