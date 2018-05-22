@@ -12,9 +12,9 @@ Burger Eater is a simple Express, MySQL and Handlebars app that utilizes MVC arc
 ## Running the app
 
 The app is run by running 'node server.js' in the terminal within the root directory of the project. The application will then be listening on localhost:8080. Once on the page a user can:
-    1. Add a burger to the available burger list by typing in a new burger name and click the submit button.
-    2. A burger on the available list can be devoured by clicking the 'Devour' button next to the burger name.
-    3. More stock and be added to a burger that has already been devoured by pressing the respective '+' button next to a devoured burger name.
+1. Add a burger to the available burger list by typing in a new burger name and click the submit button.
+2. A burger on the available list can be devoured by clicking the 'Devour' button next to the burger name.
+3. More stock and be added to a burger that has already been devoured by pressing the respective '+' button next to a devoured burger name.
 
 All button click events will dynamically add or update values in the MySQL database and update the DOM accordingly. 
 
